@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chaekkwae"
+version = "0.1.0"
+description = "Literature agent team for bioinformatics: search PubMed / Europe PMC / preprints and fetch validated full text, built on Claude Code + MCP"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "mcp>=1.20,<3",
+    "httpx>=0.27,<1",
+    "pyyaml>=6",
+    "pypdf>=6",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "respx>=0.21"]
+
+[project.scripts]
+paperops-mcp = "paperops_mcp.server:main"
+paperops = "paperops_mcp.cli:main"
+
+[tool.setuptools]
+packages = ["paperops_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not live'"
+markers = [
+    "live: smoke tests that call the real literature APIs (pytest -m live)",
+]

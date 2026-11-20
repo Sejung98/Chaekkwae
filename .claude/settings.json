@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__paperops__list_databases",
+      "mcp__paperops__check_environment",
+      "mcp__paperops__search_papers",
+      "mcp__paperops__get_paper",
+      "mcp__paperops__find_entity",
+      "mcp__paperops__fetch_fulltext",
+      "mcp__paperops__fetch_supplement",
+      "mcp__paperops__fetch_log",
+      "mcp__paperops__get_query",
+      "mcp__paperops__list_queries"
+    ],
+    "deny": [
+      "Bash(env)",
+      "Bash(printenv *)",
+      "Read(config.yaml)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "paperops"
+  ]
+}

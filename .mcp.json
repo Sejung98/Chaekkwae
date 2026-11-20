@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "paperops": {
+      "type": "stdio",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/.venv/bin/python",
+      "args": ["-m", "paperops_mcp.server"],
+      "env": {},
+      "alwaysLoad": true
+    }
+  }
+}

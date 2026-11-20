@@ -1,0 +1,37 @@
+# Chaekkwae example configuration
+# install.sh copies this file to config.yaml. config.yaml is not committed to git (.gitignore).
+# Every value here is optional: with no config.yaml at all the tools run with these defaults.
+# Relative paths are relative to the folder containing this file; ~ and $VAR are expanded.
+
+# ---------------------------------------------------------------- paths
+data_root: ./data           # papers go to <data_root>/papers/<paper key>/, search results to <data_root>/searches/
+state_dir: ./state          # SQLite log of searches and fetch attempts (a local disk is safer than NFS/Lustre)
+
+# ---------------------------------------------------------------- contact e-mail
+# Sent to NCBI, Crossref and Unpaywall as the contact address (their "polite use" rule).
+# Unpaywall refuses requests without a real address. The PAPEROPS_EMAIL environment variable overrides this.
+contact_email: ""
+
+# ---------------------------------------------------------------- API keys: NOT here
+# Keys are read from environment variables only, so they can never be committed with this file:
+#   NCBI_API_KEY        optional   PubMed/PMC: 10 requests/s instead of 3
+#   OPENALEX_API_KEY    optional   own daily budget instead of one shared per IP address
+#   S2_API_KEY          optional   Semantic Scholar: keyword search is usually rate-limited without it
+#   ELSEVIER_API_KEY    required for Elsevier full text   (+ ELSEVIER_INSTTOKEN if your IP is not recognised)
+#   WILEY_TDM_TOKEN     required for Wiley full text
+#   SPRINGER_API_KEY    required for the Springer Nature Open Access API
+# Where to get each one: python -m paperops_mcp.cli databases   (or the README)
+
+# ---------------------------------------------------------------- publisher site (last resort, off by default)
+# true = when no open copy exists, follow the DOI to the publisher page and download the PDF it names.
+# This only works on a network with a subscription by IP address (campus, VPN). Login pages and bot checks
+# are logged as `paywall` / `bot_wall` and are never bypassed. Check the licence terms before bulk use.
+allow_publisher_direct: false
+
+# ---------------------------------------------------------------- limits
+max_download_mb: 200        # a single file larger than this is refused (reason: too_large)
+max_supplement_files: 50    # per article
+
+http:
+  timeout: 60               # seconds per request; Europe PMC sometimes needs most of it
+  retries: 2                # extra tries on HTTP 429 / 5xx / network errors (with backoff)

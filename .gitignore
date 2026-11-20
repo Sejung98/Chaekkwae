@@ -1,0 +1,25 @@
+# Local config (holds your contact e-mail) and anything that could hold a key
+config.yaml
+.env
+.env.*
+*.token
+*token*.txt
+*credential*.json
+
+# Downloaded papers, search results and the local log
+data/
+state/
+*.sqlite
+*.sqlite-journal
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# Claude Code local settings
+.claude/settings.local.json
