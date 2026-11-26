@@ -1,4 +1,4 @@
-# Chaekkwae example configuration
+# Saseo example configuration
 # install.sh copies this file to config.yaml. config.yaml is not committed to git (.gitignore).
 # Every value here is optional: with no config.yaml at all the tools run with these defaults.
 # Relative paths are relative to the folder containing this file; ~ and $VAR are expanded.

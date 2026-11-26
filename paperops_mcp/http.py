@@ -151,7 +151,7 @@ def make_client(timeout: float = 60, email: str = "") -> httpx.Client:
     it goes only to NCBI, Crossref and Unpaywall, as a request parameter."""
     if email:
         _extra_secrets.add(email)
-    ua = f"Chaekkwae/{__version__} (literature retrieval; +https://github.com/Sejung98/Chaekkwae)"
+    ua = f"Saseo/{__version__} (literature retrieval; +https://github.com/Sejung98/Saseo)"
     return httpx.Client(timeout=timeout, headers={"User-Agent": ua}, follow_redirects=True,
                         event_hooks={"request": [_guard]})
 

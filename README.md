@@ -1,23 +1,23 @@
-> *Chaekkwae (책쾌) was the travelling book broker of Joseon Korea: he knew which house held which book and brought the right one to the scholar who asked. This one does it for papers.*
+> *Saseo (司書) was a sixth-rank office in Seja Sigangwon, the Joseon bureau that educated the crown prince; it is also the origin of the modern Korean word for librarian. This one keeps papers: it finds them, fetches them, and records where each came from.*
 
-# Chaekkwae: Literature Team for Bioinformatics
+# Saseo: Literature Team for Bioinformatics
 
-[![tests](https://github.com/Sejung98/Chaekkwae/actions/workflows/tests.yml/badge.svg)](https://github.com/Sejung98/Chaekkwae/actions/workflows/tests.yml)
+[![tests](https://github.com/Sejung98/Saseo/actions/workflows/tests.yml/badge.svg)](https://github.com/Sejung98/Saseo/actions/workflows/tests.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**Ask in plain language. Chaekkwae searches a fixed, documented set of literature databases, downloads and validates the full text and supplementary files, and logs the keywords it used and the reason for every paper it could not get.**
+**Ask in plain language. Saseo searches a fixed, documented set of literature databases, downloads and validates the full text and supplementary files, and logs the keywords it used and the reason for every paper it could not get.**
 
 [한국어 README](README.ko.md)
 
-There are many literature skills and connectors, but each covers a different set of databases and rarely says which. Chaekkwae fixes the set to the ones bioinformatics work actually uses, states for each one what it gives (search, abstract, full text, supplement) and whether it needs an API key, and records where every paper came from.
+There are many literature skills and connectors, but each covers a different set of databases and rarely says which. Saseo fixes the set to the ones bioinformatics work actually uses, states for each one what it gives (search, abstract, full text, supplement) and whether it needs an API key, and records where every paper came from.
 
 ## Quick start
 
 With Python ≥ 3.10 and [Claude Code](https://code.claude.com/docs) (Claude subscription or API key):
 
 ```bash
-git clone https://github.com/Sejung98/Chaekkwae.git
-cd Chaekkwae && ./install.sh --probe   # creates .venv, installs deps, then calls every database once
+git clone https://github.com/Sejung98/Saseo.git
+cd Saseo && ./install.sh --probe   # creates .venv, installs deps, then calls every database once
 claude                                 # start Claude Code in this folder; trust it and allow the paperops MCP server
 ```
 
@@ -27,7 +27,7 @@ No API key is needed to start: PubMed, Europe PMC, PubTator3, PMC, bioRxiv/medRx
 
 ## Databases
 
-What Chaekkwae gets **from each database** (not everything the database could offer):
+What Saseo gets **from each database** (not everything the database could offer):
 
 | Database | Covers | Search | Abstract | Full text | Supplement | API key |
 |---|---|---|---|---|---|---|
@@ -97,7 +97,7 @@ Abridged from real runs on 2026-11-20 (no API keys set).
 
 ```
 You:        Papers on mutational signatures in breast cancer since 2023.
-Chaekkwae:  literature-search -> search_papers(sources=[pubmed, pubtator, crossref, openalex, semanticscholar], year_from=2023)
+Saseo:  literature-search -> search_papers(sources=[pubmed, pubtator, crossref, openalex, semanticscholar], year_from=2023)
             pubmed           ok    801 hits   query_sent: "mutational signature breast cancer"
                                               interpreted_as: ("mutate"[All Fields] OR ... "mutation"[MeSH Terms] ...) AND ...
             pubtator         ok    49,524 hits
@@ -107,13 +107,13 @@ Chaekkwae:  literature-search -> search_papers(sources=[pubmed, pubtator, crossr
             -> 16 unique papers (merged by DOI / PMID), query_id se_20261120061243_cc32df, partial: 1 source failed
 
 You:        Get the full text and supplement of PMID 32025018.
-Chaekkwae:  fulltext-fetch -> fetch_fulltext("32025018", want_pdf=True)
+Saseo:  fulltext-fetch -> fetch_fulltext("32025018", want_pdf=True)
             pmc_s3  ok   fulltext.xml (712,515 bytes) + fulltext.pdf (7,069,239 bytes, 28 pages), md5 verified,
                          title found on the first pages -> fulltext.txt (43,416 characters)
             fetch_supplement -> 4 supplementary PDFs, md5 verified
 
 You:        And 10.1016/j.cell.2023.01.035?
-Chaekkwae:  NOT fetched. What was tried:
+Saseo:  NOT fetched. What was tried:
             pmc_s3 / europepmc / pmc_bioc   skip  not_applicable   the paper has no PMCID
             unpaywall                       skip  no_email         set contact_email
             openalex                        fail  bot_wall         the "open" PDF link answered with a bot check
@@ -275,7 +275,7 @@ The unit tests run on every push (Linux with Python 3.10 and 3.12, Windows with 
 
 ## Limitations
 
-- **A subscription paper stays unfetched unless you have a route to it**: a publisher key linked to your institution, or `allow_publisher_direct` on a subscribing network. Chaekkwae tells you which, but cannot create access.
+- **A subscription paper stays unfetched unless you have a route to it**: a publisher key linked to your institution, or `allow_publisher_direct` on a subscribing network. Saseo tells you which, but cannot create access.
 - The success paths of the Elsevier, Wiley, Springer Nature and Unpaywall steps were **not live-tested** (no working key or e-mail at hand); only their refusals were. They are unit-tested against mocked responses written from the public API documentation.
 - Supplementary files are available only for articles in PubMed Central's open collections.
 - Europe PMC can take tens of seconds per request or return HTTP 503 at busy times. PMC on AWS is tried first for that reason.

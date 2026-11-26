@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Chaekkwae install script (Linux / macOS; for Windows see README "Windows")
+# Saseo install script (Linux / macOS; for Windows see README "Windows")
 #   ./install.sh               # default install
 #   PYTHON=python3.11 ./install.sh
 #   ./install.sh --run-tests   # run unit tests after install

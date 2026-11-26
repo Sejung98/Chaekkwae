@@ -1,23 +1,23 @@
-> *책쾌(冊儈)는 조선 시대에 집집을 돌며 책을 구해 주던 책 거간꾼입니다. 어느 집에 어떤 책이 있는지 알고, 찾는 사람에게 맞는 책을 가져다주었습니다. 이 책쾌는 논문을 가져다줍니다.*
+> *사서(司書)는 조선 시대에 왕세자의 교육을 맡던 세자시강원(世子侍講院)에 속한 정6품 벼슬입니다. 오늘날 도서관에서 책을 관리하는 전문직 "사서"라는 말이 여기서 왔습니다. 이 사서는 논문을 찾고, 받고, 어디서 왔는지 기록해 둡니다.*
 
-# 책쾌(Chaekkwae): 생명정보학 논문 수집 팀
+# 사서(Saseo): 생명정보학 논문 수집 팀
 
-[![tests](https://github.com/Sejung98/Chaekkwae/actions/workflows/tests.yml/badge.svg)](https://github.com/Sejung98/Chaekkwae/actions/workflows/tests.yml)
+[![tests](https://github.com/Sejung98/Saseo/actions/workflows/tests.yml/badge.svg)](https://github.com/Sejung98/Saseo/actions/workflows/tests.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **말로 요청하면, 정해 둔 논문 데이터베이스에서 논문을 찾고, 본문과 보충자료를 받아 제대로 된 파일인지 확인하고, 어떤 검색어를 썼는지와 못 받은 논문은 왜 못 받았는지를 기록합니다.**
 
 [English README](README.md)
 
-논문을 찾아 주는 스킬과 커넥터는 많지만, 저마다 다루는 데이터베이스가 다르고 어디서 가져오는지 잘 밝히지 않습니다. 책쾌는 생명정보학에서 실제로 쓰는 데이터베이스만 골라 고정하고, 데이터베이스마다 무엇을 주는지(검색, 초록, 본문, 보충자료)와 API 키가 필요한지를 적어 두며, 논문 하나하나가 어디서 왔는지 남깁니다.
+논문을 찾아 주는 스킬과 커넥터는 많지만, 저마다 다루는 데이터베이스가 다르고 어디서 가져오는지 잘 밝히지 않습니다. 사서는 생명정보학에서 실제로 쓰는 데이터베이스만 골라 고정하고, 데이터베이스마다 무엇을 주는지(검색, 초록, 본문, 보충자료)와 API 키가 필요한지를 적어 두며, 논문 하나하나가 어디서 왔는지 남깁니다.
 
 ## 바로 시작하기
 
 Python 3.10 이상과 [Claude Code](https://code.claude.com/docs)가 있으면 됩니다.
 
 ```bash
-git clone https://github.com/Sejung98/Chaekkwae.git
-cd Chaekkwae && ./install.sh --probe   # .venv 생성, 의존 패키지 설치, 모든 데이터베이스를 한 번씩 호출해 봄
+git clone https://github.com/Sejung98/Saseo.git
+cd Saseo && ./install.sh --probe   # .venv 생성, 의존 패키지 설치, 모든 데이터베이스를 한 번씩 호출해 봄
 claude                                 # 이 폴더에서 Claude Code 실행 → 폴더 신뢰, paperops MCP 서버 허용
 ```
 
@@ -27,7 +27,7 @@ claude                                 # 이 폴더에서 Claude Code 실행 →
 
 ## 데이터베이스
 
-책쾌가 **각 데이터베이스에서 실제로 가져오는 것**입니다(그 데이터베이스가 줄 수 있는 전부가 아닙니다).
+사서가 **각 데이터베이스에서 실제로 가져오는 것**입니다(그 데이터베이스가 줄 수 있는 전부가 아닙니다).
 
 | 데이터베이스 | 다루는 범위 | 검색 | 초록 | 본문 | 보충자료 | API 키 |
 |---|---|---|---|---|---|---|
@@ -97,7 +97,7 @@ Unpaywall은 키는 없지만 실제 연락용 이메일이 없으면 요청을 
 
 ```
 나:    2023년 이후 유방암 mutational signature 논문 찾아 줘.
-책쾌:  literature-search → search_papers(sources=[pubmed, pubtator, crossref, openalex, semanticscholar], year_from=2023)
+사서:  literature-search → search_papers(sources=[pubmed, pubtator, crossref, openalex, semanticscholar], year_from=2023)
        pubmed           됨    801건    보낸 검색어: "mutational signature breast cancer"
                                        PubMed 해석: ("mutate"[All Fields] OR ... "mutation"[MeSH Terms] ...) AND ...
        pubtator         됨    49,524건
@@ -107,13 +107,13 @@ Unpaywall은 키는 없지만 실제 연락용 이메일이 없으면 요청을 
        → 겹치는 것을 합쳐 16편(DOI / PMID 기준), query_id se_20261120061243_cc32df, 1곳 실패라 일부 결과
 
 나:    PMID 32025018 본문이랑 보충자료 받아 줘.
-책쾌:  fulltext-fetch → fetch_fulltext("32025018", want_pdf=True)
+사서:  fulltext-fetch → fetch_fulltext("32025018", want_pdf=True)
        pmc_s3  됨   fulltext.xml(712,515바이트) + fulltext.pdf(7,069,239바이트, 28쪽), md5 일치,
                     첫 쪽들에서 제목 확인 → fulltext.txt(43,416자)
        fetch_supplement → 보충 PDF 4개, md5 일치
 
 나:    10.1016/j.cell.2023.01.035 도.
-책쾌:  못 받았습니다. 시도한 곳과 이유:
+사서:  못 받았습니다. 시도한 곳과 이유:
        pmc_s3 / europepmc / pmc_bioc   건너뜀  not_applicable   PMCID가 없는 논문
        unpaywall                       건너뜀  no_email         contact_email 설정 필요
        openalex                        실패    bot_wall         "공개" PDF 링크가 봇 확인 화면을 돌려줌
@@ -261,7 +261,7 @@ python -m venv .venv; .venv\Scripts\python -m pip install -e ".[test]"
 
 ## 한계
 
-- **구독 논문은 볼 길이 있어야 받습니다.** 기관과 연결된 출판사 키, 또는 구독 네트워크에서 켠 `allow_publisher_direct`가 그 길입니다. 책쾌는 어느 쪽이 필요한지 알려 줄 뿐, 권한을 만들어 주지는 못합니다.
+- **구독 논문은 볼 길이 있어야 받습니다.** 기관과 연결된 출판사 키, 또는 구독 네트워크에서 켠 `allow_publisher_direct`가 그 길입니다. 사서는 어느 쪽이 필요한지 알려 줄 뿐, 권한을 만들어 주지는 못합니다.
 - Elsevier, Wiley, Springer Nature, Unpaywall 단계의 **성공 경로는 실제로 시험하지 못했습니다**(쓸 수 있는 키·이메일이 없었음). 거절되는 경우만 확인했습니다. 성공 경로는 공개 API 문서를 보고 만든 가짜 응답으로 단위 시험했습니다.
 - 보충자료는 PubMed Central 공개 목록에 있는 논문만 됩니다.
 - Europe PMC는 바쁠 때 요청 하나에 수십 초가 걸리거나 HTTP 503을 냅니다. 그래서 PMC 공개 저장소(AWS)를 먼저 시도합니다.

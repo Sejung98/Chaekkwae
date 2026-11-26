@@ -29,7 +29,7 @@ PUBTATOR = "https://www.ncbi.nlm.nih.gov/research/pubtator3-api/search/"
 
 
 def _params(ctx: Ctx, **extra: Any) -> dict[str, Any]:
-    p: dict[str, Any] = {"tool": "chaekkwae", **extra}
+    p: dict[str, Any] = {"tool": "saseo", **extra}
     if ctx.cfg.email:
         p["email"] = ctx.cfg.email
     if key("NCBI_API_KEY"):
